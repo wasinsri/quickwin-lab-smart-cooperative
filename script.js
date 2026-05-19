@@ -13,8 +13,16 @@ const oneMinuteSummary = document.getElementById("oneMinuteSummary");
 let currentStep = 1;
 let generatedImage = null;
 let generatedDetail = "";
+let lastAutoQuickWinName = "";
 
-const scoreFields = ["impact", "speed", "feasibility", "dataUse", "scalability"];
+const scoreCriteria = ["Impact", "Speed", "Feasibility", "DataUse", "Scalability"];
+const scoreFieldMap = {
+  Impact: "impact",
+  Speed: "speed",
+  Feasibility: "feasibility",
+  DataUse: "dataUse",
+  Scalability: "scalability",
+};
 const requiredForApi = [
   "groupName",
   "coopType",
@@ -77,49 +85,111 @@ function showStep(step) {
 
 function getIdea(index) {
   return {
+    index,
     name: byId(`idea${index}Name`).value.trim(),
     action: byId(`idea${index}Action`).value.trim(),
     benefit: byId(`idea${index}Benefit`).value.trim(),
   };
 }
 
-function selectedIdeaText() {
-  const selectedIndex = getRadioValue("selectedIdeaIndex") || "1";
-  const idea = getIdea(selectedIndex);
+function ideaText(idea) {
   if (!idea.name && !idea.action && !idea.benefit) return "";
   return [idea.name, idea.action, idea.benefit].filter(Boolean).join(" | ");
 }
 
-function calculateScore() {
-  const scores = Object.fromEntries(scoreFields.map((field) => [field, Number(byId(field).value || 0)]));
-  const total = scoreFields.reduce((sum, field) => sum + scores[field], 0);
-  let interpretation = "ยังไม่เหมาะ ควรเปลี่ยนหรือปรับให้เล็กลง";
+function scoreInputId(index, criterion) {
+  return `idea${index}${criterion}`;
+}
 
-  if (total >= 21) interpretation = "เหมาะมาก ควรเลือกเป็น Quick Win หลัก";
-  else if (total >= 16) interpretation = "เหมาะสม แต่ควรปรับแผนให้ชัดขึ้น";
-  else if (total >= 11) interpretation = "พอทำได้ แต่ยังไม่ใช่ Quick Win ที่ดี";
+function getIdeaScore(index) {
+  const values = Object.fromEntries(
+    scoreCriteria.map((criterion) => [scoreFieldMap[criterion], Number(byId(scoreInputId(index, criterion)).value || 0)])
+  );
+  const totalScore = Object.values(values).reduce((sum, value) => sum + value, 0);
+  return { ...values, totalScore };
+}
+
+function getScoredIdeas() {
+  return [1, 2, 3].map((index) => {
+    const idea = getIdea(index);
+    const score = getIdeaScore(index);
+    return { ...idea, text: ideaText(idea), ...score };
+  });
+}
+
+function selectedIdeaInfo() {
+  const ideas = getScoredIdeas();
+  const namedIdeas = ideas.filter((idea) => idea.name || idea.action || idea.benefit);
+  const candidates = namedIdeas.length ? namedIdeas : ideas;
+  return candidates.reduce((winner, idea) => {
+    if (!winner) return idea;
+    if (idea.totalScore > winner.totalScore) return idea;
+    if (idea.totalScore === winner.totalScore && idea.feasibility > winner.feasibility) return idea;
+    return winner;
+  }, null);
+}
+
+function selectedIdeaText() {
+  const winner = selectedIdeaInfo();
+  return winner?.text || "";
+}
+
+function scoreInterpretation(total) {
+  if (total >= 21) return "เหมาะมาก ควรเลือกเป็น Quick Win หลัก";
+  if (total >= 16) return "เหมาะสม แต่ควรปรับแผนให้ชัดขึ้น";
+  if (total >= 11) return "พอทำได้ แต่ยังไม่ใช่ Quick Win ที่ดี";
+  return "ยังไม่เหมาะ ควรเปลี่ยนหรือปรับให้เล็กลง";
+}
+
+function calculateScore() {
+  const ideas = getScoredIdeas();
+  const selected = selectedIdeaInfo();
+  const hasSelectedIdea = Boolean(selected?.text);
+  const total = selected?.totalScore || 0;
+  const interpretation = scoreInterpretation(total);
 
   byId("totalScore").textContent = `${total}/25`;
   byId("scoreInterpretation").textContent = interpretation;
   byId("heroScore").textContent = `${total}/25`;
-  byId("heroResult").textContent = interpretation;
-  byId("feasibilityWarning").classList.toggle("hidden", scores.feasibility >= 3);
+  byId("heroResult").textContent = hasSelectedIdea ? `ไอเดียที่ ${selected.index}: ${interpretation}` : "เริ่มให้คะแนนเพื่อดูผลประเมิน";
+  byId("selectedIdeaName").textContent = hasSelectedIdea ? `ไอเดียที่ ${selected.index}: ${selected.name || selected.action || "ยังไม่ตั้งชื่อ"}` : "ยังไม่มีไอเดียที่พร้อมประเมิน";
+  byId("selectedIdeaReason").textContent = hasSelectedIdea
+    ? `คะแนนสูงสุด ${total}/25 - ระบบจะใช้ไอเดียนี้เป็นโครงการหลัก`
+    : "กรอกชื่อไอเดียและให้คะแนนทุกไอเดียเพื่อเลือกโครงการหลัก";
+  byId("feasibilityWarning").classList.toggle("hidden", !hasSelectedIdea || selected.feasibility >= 3);
 
-  scoreFields.forEach((field) => {
-    const input = byId(field);
-    const output = input.parentElement.querySelector("output");
-    output.value = input.value;
-    output.textContent = input.value;
+  ideas.forEach((idea) => {
+    byId(`idea${idea.index}Total`).textContent = `${idea.totalScore}/25`;
+    byId(`idea${idea.index}ScoreTitle`).textContent = idea.name || `ไอเดียที่ ${idea.index}`;
+    document.querySelector(`[data-idea-score-card="${idea.index}"]`)?.classList.toggle("selected", selected?.index === idea.index);
+    scoreCriteria.forEach((criterion) => {
+      const input = byId(scoreInputId(idea.index, criterion));
+      const output = input.parentElement.querySelector("output");
+      output.value = input.value;
+      output.textContent = input.value;
+    });
   });
 
+  syncQuickWinName(selected);
   updateSummary();
-  return { ...scores, totalScore: total, interpretation };
+  return { ...selected, totalScore: total, interpretation };
+}
+
+function syncQuickWinName(selected) {
+  if (!selected?.name) return;
+  const quickWinName = byId("quickWinName");
+  if (!quickWinName.value.trim() || quickWinName.value.trim() === lastAutoQuickWinName) {
+    quickWinName.value = selected.name;
+    lastAutoQuickWinName = selected.name;
+  }
 }
 
 function collectData() {
   const painPointChoice = getRadioValue("painPoint");
   const painPoint = painPointChoice === "อื่น ๆ" ? byId("otherPainPoint").value.trim() || "อื่น ๆ" : painPointChoice;
   const score = calculateScore();
+  const ideaScores = getScoredIdeas();
+  const selectedIdea = selectedIdeaInfo();
 
   return {
     groupName: byId("groupName").value.trim(),
@@ -135,7 +205,9 @@ function collectData() {
     idea1: getIdea(1),
     idea2: getIdea(2),
     idea3: getIdea(3),
-    selectedIdea: selectedIdeaText(),
+    ideaScores,
+    selectedIdeaIndex: selectedIdea?.index || 0,
+    selectedIdea: selectedIdea?.text || "",
     quickWinName: byId("quickWinName").value.trim(),
     goal90: byId("goal90").value.trim(),
     plan30: byId("plan30").value.trim(),
@@ -148,12 +220,12 @@ function collectData() {
     kpi1: byId("kpi1").value.trim(),
     kpi2: byId("kpi2").value.trim(),
     kpi3: byId("kpi3").value.trim(),
-    impact: score.impact,
-    speed: score.speed,
-    feasibility: score.feasibility,
-    dataUse: score.dataUse,
-    scalability: score.scalability,
-    totalScore: score.totalScore,
+    impact: score.impact || 0,
+    speed: score.speed || 0,
+    feasibility: score.feasibility || 0,
+    dataUse: score.dataUse || 0,
+    scalability: score.scalability || 0,
+    totalScore: score.totalScore || 0,
   };
 }
 
@@ -321,6 +393,7 @@ function resetForm() {
   form.reset();
   generatedImage = null;
   generatedDetail = "";
+  lastAutoQuickWinName = "";
   imagePreview.innerHTML = "<p>ภาพจาก Gemini จะแสดงที่นี่</p>";
   projectDetailPreview.innerHTML = "<p>รายละเอียดโครงการจาก Gemini จะแสดงที่นี่</p>";
   imageState.textContent = "ยังไม่ได้สร้าง";
@@ -372,9 +445,10 @@ form.addEventListener("change", () => {
 });
 
 function updateIdeaLabels() {
-  document.querySelectorAll("#selectedIdeaOptions label").forEach((label, index) => {
-    const ideaName = byId(`idea${index + 1}Name`).value.trim();
-    label.lastChild.textContent = ideaName ? ` ${ideaName}` : ` ไอเดียที่ ${index + 1}`;
+  [1, 2, 3].forEach((index) => {
+    const ideaName = byId(`idea${index}Name`).value.trim();
+    const title = byId(`idea${index}ScoreTitle`);
+    if (title) title.textContent = ideaName || `ไอเดียที่ ${index}`;
   });
 }
 

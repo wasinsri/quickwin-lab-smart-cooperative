@@ -343,6 +343,74 @@ input[type="radio"] {
   background: linear-gradient(180deg, #ffffff, #f8fcfa);
 }
 
+.winner-box {
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(201, 151, 26, 0.42);
+  border-radius: 8px;
+  padding: 18px;
+  background: linear-gradient(90deg, var(--gold-soft), #ffffff);
+}
+
+.winner-box span,
+.winner-box small {
+  color: var(--muted);
+}
+
+.winner-box strong {
+  color: var(--green-dark);
+  font-size: 1.25rem;
+}
+
+.criteria-note {
+  border-left: 5px solid var(--blue);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: var(--blue-dark);
+  background: var(--blue-soft);
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+.multi-score-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.idea-score-card {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: #ffffff;
+}
+
+.idea-score-card.selected {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(201, 151, 26, 0.16);
+}
+
+.idea-score-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.idea-score-heading h3 {
+  margin: 0;
+}
+
+.idea-score-heading strong {
+  border-radius: 8px;
+  padding: 0.35rem 0.6rem;
+  color: var(--green-dark);
+  background: var(--gold-soft);
+  white-space: nowrap;
+}
+
 .score-grid {
   display: grid;
   gap: 14px;
@@ -357,6 +425,21 @@ input[type="radio"] {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #ffffff;
+}
+
+.compact-score {
+  gap: 9px;
+}
+
+.compact-score .score-item {
+  grid-template-columns: minmax(95px, 1fr) minmax(88px, 130px) 34px;
+  gap: 10px;
+  padding: 10px;
+}
+
+.compact-score output {
+  width: 32px;
+  height: 32px;
 }
 
 .score-item p {
@@ -527,6 +610,7 @@ body.loading button {
   .grid.three,
   .grid.two,
   .idea-list,
+  .multi-score-grid,
   .option-grid,
   .option-grid.compact {
     grid-template-columns: 1fr;

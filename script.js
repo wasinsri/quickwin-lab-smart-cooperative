@@ -7,7 +7,7 @@ const projectDetailPreview = document.getElementById("projectDetailPreview");
 const imageState = document.getElementById("imageState");
 const detailState = document.getElementById("detailState");
 const downloadPngBtn = document.getElementById("downloadPngBtn");
-const downloadPdfBtn = document.getElementById("downloadPdfBtn");
+const copyProjectBtn = document.getElementById("copyProjectBtn");
 const oneMinuteSummary = document.getElementById("oneMinuteSummary");
 
 let currentStep = 1;
@@ -56,14 +56,14 @@ function setLoading(isLoading, message = "") {
     "generateDetailBtn",
     "calculateBtn",
     "downloadPngBtn",
-    "downloadPdfBtn",
+    "copyProjectBtn",
     "resetBtn",
     "nextBtn",
     "backBtn",
   ].forEach((id) => {
     const element = byId(id);
     if (!element) return;
-    const blockedByResult = (id === "downloadPngBtn" && !generatedImage) || (id === "downloadPdfBtn" && !generatedDetail);
+    const blockedByResult = (id === "downloadPngBtn" && !generatedImage) || (id === "copyProjectBtn" && !generatedDetail);
     const blockedByStep = id === "backBtn" && currentStep === 1;
     element.disabled = isLoading || blockedByResult || blockedByStep;
   });
@@ -311,13 +311,13 @@ async function generateDetail() {
   if (!data) return;
 
   try {
-    setLoading(true, "กำลังเขียนรายละเอียดโครงการจาก Gemini...");
+    setLoading(true, "กำลังเขียนข้อมูลโครงการจาก Gemini...");
     const result = await callWorker("generate_project_detail", data);
     generatedDetail = result.projectDetail || "";
     projectDetailPreview.textContent = generatedDetail;
     detailState.textContent = "สร้างสำเร็จ";
-    downloadPdfBtn.disabled = false;
-    setStatus("สร้างรายละเอียดโครงการสำเร็จ", "success");
+    copyProjectBtn.disabled = false;
+    setStatus("สร้างข้อมูลโครงการสำเร็จ สามารถคัดลอกไปใช้งานต่อได้", "success");
   } catch (error) {
     setStatus(error.message, "error");
   } finally {
@@ -338,55 +338,14 @@ function safeFileName(name) {
   return name.replace(/[\\/:*?"<>|]/g, "-").replace(/\s+/g, "-").slice(0, 80);
 }
 
-function buildPrintableDocument() {
-  const data = collectData();
-  const printRoot = document.createElement("main");
-  printRoot.className = "print-document";
-  printRoot.id = "printDocument";
-
-  const sections = [
-    ["ชื่อโครงการ", data.quickWinName],
-    ["ประเภทสหกรณ์", data.coopType],
-    ["Pain Point", data.painPoint],
-    ["เหตุผลความสำคัญ", data.whyImportant || data.painPointDetail],
-    ["วัตถุประสงค์", data.selectedIdea],
-    ["เป้าหมาย 90 วัน", data.goal90],
-    ["แผนดำเนินงาน 0–30 วัน", data.plan30],
-    ["แผนดำเนินงาน 31–60 วัน", data.plan60],
-    ["แผนดำเนินงาน 61–90 วัน", data.plan90],
-    ["KPI", [data.kpi1, data.kpi2, data.kpi3].filter(Boolean).join("\n")],
-    ["คะแนนประเมิน", `${data.totalScore}/25`],
-    ["ความเสี่ยงและวิธีลดความเสี่ยง", [data.risk, data.riskMitigation].filter(Boolean).join("\n")],
-    ["ผลลัพธ์ที่คาดหวัง", data.goal90],
-    ["แนวทางขยายผล", "นำบทเรียน เครื่องมือ และตัวชี้วัดไปปรับใช้กับสหกรณ์ประเภทเดียวกันหรือพื้นที่ใกล้เคียง"],
-  ];
-
-  const title = document.createElement("h1");
-  title.textContent = data.quickWinName || "รายละเอียดโครงการ Quick Win";
-  printRoot.appendChild(title);
-
-  if (generatedDetail) {
-    const detail = document.createElement("section");
-    detail.textContent = generatedDetail;
-    printRoot.appendChild(detail);
-  } else {
-    sections.forEach(([heading, body]) => {
-      const h2 = document.createElement("h2");
-      h2.textContent = heading;
-      const p = document.createElement("p");
-      p.textContent = body || "-";
-      printRoot.append(h2, p);
-    });
+async function copyProjectDetail() {
+  if (!generatedDetail) return;
+  try {
+    await navigator.clipboard.writeText(generatedDetail);
+    setStatus("คัดลอกข้อมูลโครงการแล้ว", "success");
+  } catch (error) {
+    setStatus("คัดลอกอัตโนมัติไม่ได้ กรุณาเลือกข้อความข้อมูลโครงการแล้วคัดลอกด้วยตนเอง", "error");
   }
-
-  document.getElementById("printDocument")?.remove();
-  document.body.appendChild(printRoot);
-}
-
-function downloadPdf() {
-  buildPrintableDocument();
-  setStatus("เปิดหน้าต่างพิมพ์แล้ว เลือก Save as PDF เพื่อบันทึกไฟล์ PDF ภาษาไทย", "success");
-  window.print();
 }
 
 function resetForm() {
@@ -395,11 +354,11 @@ function resetForm() {
   generatedDetail = "";
   lastAutoQuickWinName = "";
   imagePreview.innerHTML = "<p>ภาพจาก Gemini จะแสดงที่นี่</p>";
-  projectDetailPreview.innerHTML = "<p>รายละเอียดโครงการจาก Gemini จะแสดงที่นี่</p>";
+  projectDetailPreview.innerHTML = "<p>ข้อมูลโครงการจาก Gemini จะแสดงที่นี่ และสามารถกด Copy Project เพื่อนำไปใช้ต่อได้</p>";
   imageState.textContent = "ยังไม่ได้สร้าง";
   detailState.textContent = "ยังไม่ได้สร้าง";
   downloadPngBtn.disabled = true;
-  downloadPdfBtn.disabled = true;
+  copyProjectBtn.disabled = true;
   setStatus("");
   calculateScore();
   showStep(1);
@@ -422,7 +381,7 @@ byId("calculateBtn").addEventListener("click", () => {
 byId("generateImageBtn").addEventListener("click", generateImage);
 byId("generateDetailBtn").addEventListener("click", generateDetail);
 downloadPngBtn.addEventListener("click", downloadPng);
-downloadPdfBtn.addEventListener("click", downloadPdf);
+copyProjectBtn.addEventListener("click", copyProjectDetail);
 byId("resetBtn").addEventListener("click", resetForm);
 byId("copySummaryBtn").addEventListener("click", async () => {
   try {

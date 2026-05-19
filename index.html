@@ -274,8 +274,8 @@
             <h2>ดำเนินการ</h2>
             <div class="action-grid">
               <button id="calculateBtn" type="button">คำนวณคะแนน</button>
-              <button id="generateImageBtn" type="button">สร้างภาพสรุปโครงการ</button>
-              <button id="generateDetailBtn" type="button">เขียนข้อมูลโครงการ</button>
+              <button id="generateImageBtn" type="button" disabled>สร้างภาพสรุปโครงการ</button>
+              <button id="generateDetailBtn" type="button" disabled>เขียนข้อมูลโครงการ</button>
               <button id="downloadPngBtn" type="button" disabled>Download PNG</button>
               <button id="copyProjectBtn" type="button" disabled>Copy Project</button>
               <button id="resetBtn" class="danger ghost" type="button">Reset Form</button>
@@ -292,18 +292,18 @@
               <p>ภาพจาก Gemini จะแสดงที่นี่</p>
             </div>
           </div>
-
-          <div class="preview-card">
-            <div class="section-title-row">
-              <h2>ข้อมูลโครงการ</h2>
-              <span id="detailState">ยังไม่ได้สร้าง</span>
-            </div>
-            <article id="projectDetailPreview" class="document-preview">
-              <p>ข้อมูลโครงการจาก Gemini จะแสดงที่นี่ และสามารถกด Copy Project เพื่อนำไปใช้ต่อได้</p>
-            </article>
-          </div>
         </aside>
       </main>
+
+      <section class="preview-card full-width-output">
+        <div class="section-title-row">
+          <h2>ข้อมูลโครงการ</h2>
+          <span id="detailState">ยังไม่ได้สร้าง</span>
+        </div>
+        <article id="projectDetailPreview" class="document-preview">
+          <p>ข้อมูลโครงการจาก Gemini จะแสดงที่นี่ และสามารถกด Copy Project เพื่อนำไปใช้ต่อได้</p>
+        </article>
+      </section>
     </div>
 
     <script src="script.js"></script>

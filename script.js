@@ -14,6 +14,7 @@ let currentStep = 1;
 let generatedImage = null;
 let generatedDetail = "";
 let lastAutoQuickWinName = "";
+let isBusy = false;
 
 const scoreCriteria = ["Impact", "Speed", "Feasibility", "DataUse", "Scalability"];
 const scoreFieldMap = {
@@ -50,7 +51,9 @@ function setStatus(message, type = "") {
 }
 
 function setLoading(isLoading, message = "") {
+  isBusy = isLoading;
   document.body.classList.toggle("loading", isLoading);
+  const apiReady = isApiReady();
   [
     "generateImageBtn",
     "generateDetailBtn",
@@ -65,9 +68,14 @@ function setLoading(isLoading, message = "") {
     if (!element) return;
     const blockedByResult = (id === "downloadPngBtn" && !generatedImage) || (id === "copyProjectBtn" && !generatedDetail);
     const blockedByStep = id === "backBtn" && currentStep === 1;
-    element.disabled = isLoading || blockedByResult || blockedByStep;
+    const blockedByApi = (id === "generateImageBtn" || id === "generateDetailBtn") && !apiReady;
+    element.disabled = isLoading || blockedByResult || blockedByStep || blockedByApi;
   });
   if (message) setStatus(message);
+}
+
+function updateActionButtons() {
+  setLoading(isBusy);
 }
 
 function showStep(step) {
@@ -149,7 +157,9 @@ function calculateScore() {
   const interpretation = scoreInterpretation(total);
 
   byId("totalScore").textContent = `${total}/25`;
-  byId("scoreInterpretation").textContent = interpretation;
+  byId("scoreInterpretation").textContent = hasSelectedIdea
+    ? `ไอเดียที่ ${selected.index}: ${selected.name || selected.action || "ยังไม่ตั้งชื่อ"} - ${interpretation}`
+    : interpretation;
   byId("heroScore").textContent = `${total}/25`;
   byId("heroResult").textContent = hasSelectedIdea ? `ไอเดียที่ ${selected.index}: ${interpretation}` : "เริ่มให้คะแนนเพื่อดูผลประเมิน";
   byId("selectedIdeaName").textContent = hasSelectedIdea ? `ไอเดียที่ ${selected.index}: ${selected.name || selected.action || "ยังไม่ตั้งชื่อ"}` : "ยังไม่มีไอเดียที่พร้อมประเมิน";
@@ -248,8 +258,7 @@ function updateSummary() {
 
 function validateForApi() {
   const data = collectData();
-  const missing = requiredForApi.filter((key) => !data[key]);
-  if (!data.selectedIdea) missing.push("selectedIdea");
+  const missing = getMissingRequiredFields(data);
 
   if (missing.length) {
     setStatus("กรุณากรอกข้อมูลสำคัญให้ครบก่อนส่งสร้างผลลัพธ์ เช่น ชื่อกลุ่ม ประเภทสหกรณ์ Pain Point โครงการ แผน และ KPI", "error");
@@ -262,6 +271,31 @@ function validateForApi() {
   }
 
   return data;
+}
+
+function getMissingRequiredFields(data = null) {
+  const needsOtherPainPoint = getRadioValue("painPoint") === "อื่น ๆ" && !byId("otherPainPoint").value.trim();
+  const source = data || {
+    groupName: byId("groupName").value.trim(),
+    coopType: getRadioValue("coopType"),
+    painPoint: getRadioValue("painPoint") === "อื่น ๆ" ? byId("otherPainPoint").value.trim() : getRadioValue("painPoint"),
+    painPointDetail: byId("painPointDetail").value.trim(),
+    quickWinName: byId("quickWinName").value.trim(),
+    goal90: byId("goal90").value.trim(),
+    plan30: byId("plan30").value.trim(),
+    plan60: byId("plan60").value.trim(),
+    plan90: byId("plan90").value.trim(),
+    kpi1: byId("kpi1").value.trim(),
+    selectedIdea: selectedIdeaText(),
+  };
+  const missing = requiredForApi.filter((key) => !source[key]);
+  if (needsOtherPainPoint) missing.push("painPoint");
+  if (!source.selectedIdea) missing.push("selectedIdea");
+  return [...new Set(missing)];
+}
+
+function isApiReady() {
+  return getMissingRequiredFields().length === 0 && !WORKER_URL.includes("YOUR-WORKER-NAME");
 }
 
 async function callWorker(action, data) {
@@ -361,6 +395,7 @@ function resetForm() {
   copyProjectBtn.disabled = true;
   setStatus("");
   calculateScore();
+  updateActionButtons();
   showStep(1);
 }
 
@@ -395,12 +430,14 @@ byId("copySummaryBtn").addEventListener("click", async () => {
 form.addEventListener("input", () => {
   calculateScore();
   updateIdeaLabels();
+  updateActionButtons();
 });
 
 form.addEventListener("change", () => {
   byId("otherPainWrap").classList.toggle("hidden", getRadioValue("painPoint") !== "อื่น ๆ");
   calculateScore();
   updateIdeaLabels();
+  updateActionButtons();
 });
 
 function updateIdeaLabels() {
@@ -412,4 +449,5 @@ function updateIdeaLabels() {
 }
 
 calculateScore();
+updateActionButtons();
 showStep(1);

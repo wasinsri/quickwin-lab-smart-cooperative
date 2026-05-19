@@ -144,7 +144,7 @@ async function generateProjectDetail(apiKey, data) {
   const text = parts.map((part) => part.text || "").join("\n").trim();
 
   if (!text) {
-    throw new Error("Gemini ไม่ได้ส่งรายละเอียดโครงการกลับมา");
+    throw new Error("Gemini ไม่ได้ส่งข้อมูลโครงการกลับมา");
   }
 
   return text;
@@ -197,9 +197,15 @@ function buildImagePrompt(data) {
 }
 
 function buildProjectDetailPrompt(data) {
+  const selectedIdea = getSelectedIdea(data);
+  const kpis = [data.kpi1, data.kpi2, data.kpi3].filter(Boolean).join(" | ");
+
   return `
-กรุณาเขียนรายละเอียดโครงการ Quick Win ภาษาไทยแบบเป็นทางการ กระชับ และพร้อมนำไปใช้ในรายงาน Workshop
-ใช้ข้อมูลต่อไปนี้:
+กรุณาเขียนข้อมูลโครงการ Quick Win ภาษาไทยแบบเป็นทางการ กระชับ อ่านง่าย และพร้อมนำไปใช้ต่อในเอกสาร Workshop
+ให้ใช้เฉพาะข้อมูลทั่วไปของกลุ่ม สถานการณ์สหกรณ์ Pain Point และข้อมูลของไอเดียที่มีคะแนนสูงสุดเป็นแกนหลักในการเขียนโครงการ
+ห้ามนำไอเดียอื่นที่ไม่ได้คะแนนสูงสุดมาเป็นโครงการหลัก
+
+ข้อมูลทั่วไป:
 
 ชื่อกลุ่ม: ${clean(data.groupName)}
 ชื่อผู้ประสานงาน: ${clean(data.coordinator)}
@@ -211,7 +217,12 @@ function buildProjectDetailPrompt(data) {
 Pain Point: ${clean(data.painPoint)}
 รายละเอียด Pain Point: ${clean(data.painPointDetail)}
 เหตุผลความสำคัญ: ${clean(data.whyImportant)}
-Quick Win ที่เลือก: ${clean(data.selectedIdea)}
+
+ไอเดียที่มีคะแนนสูงสุด:
+ลำดับไอเดีย: ${Number(selectedIdea.index || data.selectedIdeaIndex || 0)}
+ชื่อไอเดีย: ${clean(selectedIdea.name || data.quickWinName)}
+แนวทางดำเนินงานของไอเดีย: ${clean(selectedIdea.action || data.selectedIdea)}
+ผู้ได้รับประโยชน์จากไอเดีย: ${clean(selectedIdea.benefit)}
 ชื่อโครงการ Quick Win: ${clean(data.quickWinName)}
 เป้าหมาย 90 วัน: ${clean(data.goal90)}
 แผน 0–30 วัน: ${clean(data.plan30)}
@@ -221,34 +232,46 @@ Quick Win ที่เลือก: ${clean(data.selectedIdea)}
 ทรัพยากรที่ต้องใช้: ${clean(data.resources)}
 ความเสี่ยง: ${clean(data.risk)}
 วิธีลดความเสี่ยง: ${clean(data.riskMitigation)}
-KPI: ${clean([data.kpi1, data.kpi2, data.kpi3].filter(Boolean).join(" | "))}
+KPI: ${clean(kpis)}
 คะแนน Quick Win: Impact ${Number(data.impact || 0)}, Speed ${Number(data.speed || 0)}, Feasibility ${Number(data.feasibility || 0)}, Data Use ${Number(data.dataUse || 0)}, Scalability ${Number(data.scalability || 0)}, รวม ${Number(data.totalScore || 0)}/25
 
 กรุณาจัดรูปแบบเป็นหัวข้อ:
 1. ชื่อโครงการ
-2. ประเภทสหกรณ์เป้าหมาย
-3. หลักการและเหตุผล
-4. Pain Point ที่ต้องการแก้ไข
-5. วัตถุประสงค์
-6. เป้าหมายภายใน 90 วัน
-7. กลุ่มเป้าหมายและผู้ได้รับประโยชน์
-8. แผนดำเนินงาน
-   - ระยะ 0–30 วัน
-   - ระยะ 31–60 วัน
-   - ระยะ 61–90 วัน
-9. ทรัพยากรที่ต้องใช้
-10. ตัวชี้วัดความสำเร็จ
-11. คะแนนประเมิน Quick Win
-12. ความเสี่ยงและแนวทางลดความเสี่ยง
-13. ผลลัพธ์ที่คาดหวัง
-14. แนวทางขยายผล
-15. ข้อสรุปสำหรับการนำเสนอ 1 นาที
+   ให้มีวงเล็บอธิบายสั้น ๆ ในรูปแบบ "(สถานการณ์ปัจจุบัน ปัญหา แนวทางดำเนินงาน)"
+2. ที่มาและความสำคัญ
+   เขียน 3-4 ย่อหน้า ความยาวรวมประมาณ 15 บรรทัด อธิบายสถานการณ์ปัจจุบัน ปัญหา เหตุผลความสำคัญ และความจำเป็นของ Quick Win
+3. วัตถุประสงค์
+   เขียน 2-3 ข้อ
+4. กลุ่มเป้าหมาย
+5. ขอบเขตการดำเนินงาน
+6. แผนงานดำเนินงาน (ภายใน 90 วัน)
+   แยกเป็นระยะ 0–30 วัน, 31–60 วัน, 61–90 วัน
+7. ความพร้อมในการดำเนินงาน
+   อ้างอิงคะแนนทั้ง 5 ด้าน ได้แก่ Impact, Speed, Feasibility, Data Use, Scalability และคะแนนรวม /25
+8. ความเสี่ยงและแนวทางแก้ไข
+9. ประโยชน์ที่ได้รับ
 
 สำนวนต้องเหมาะกับผู้บริหารงานส่งเสริมสหกรณ์
-ไม่ยาวเกินไป
 ใช้ภาษาราชการที่อ่านง่าย
-เน้นว่าโครงการเริ่มได้เร็ว เห็นผลภายใน 90 วัน ใช้ข้อมูลนำทาง และขยายผลได้
+เน้นว่าโครงการเริ่มได้เร็ว เห็นผลภายใน 90 วัน ใช้ข้อมูลนำทาง และมีความเป็นไปได้ตามคะแนนประเมิน
+ให้ส่งกลับเป็นข้อความล้วน ไม่ใช้ Markdown table และไม่ต้องใส่คำอธิบายก่อนหรือหลังเอกสาร
 `.trim();
+}
+
+function getSelectedIdea(data) {
+  if (!Array.isArray(data.ideaScores)) {
+    return {};
+  }
+
+  const selectedIndex = Number(data.selectedIdeaIndex || 0);
+  const selected = data.ideaScores.find((idea) => Number(idea.index) === selectedIndex);
+  if (selected) return selected;
+
+  return data.ideaScores.reduce((winner, idea) => {
+    if (!winner) return idea;
+    if (Number(idea.totalScore || 0) > Number(winner.totalScore || 0)) return idea;
+    return winner;
+  }, {});
 }
 
 function clean(value) {

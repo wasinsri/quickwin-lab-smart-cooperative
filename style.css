@@ -575,6 +575,28 @@ output {
   padding: 26px;
 }
 
+.full-width-output + .full-width-output {
+  margin-top: 22px;
+}
+
+.full-width-output .section-title-row {
+  align-items: flex-start;
+}
+
+.full-width-output .section-title-row > div {
+  display: grid;
+  gap: 4px;
+}
+
+.full-width-output .section-title-row button {
+  width: fit-content;
+  max-width: 100%;
+}
+
+.image-output .image-preview {
+  min-height: 420px;
+}
+
 .full-width-output .document-preview {
   padding: 24px;
   font-size: 1.02rem;
@@ -650,6 +672,15 @@ body.loading button {
   .card-heading {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .full-width-output .section-title-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .full-width-output .section-title-row button {
+    width: 100%;
   }
 
   .score-item {

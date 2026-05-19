@@ -276,32 +276,36 @@
               <button id="calculateBtn" type="button">คำนวณคะแนน</button>
               <button id="generateImageBtn" type="button" disabled>สร้างภาพสรุปโครงการ</button>
               <button id="generateDetailBtn" type="button" disabled>เขียนข้อมูลโครงการ</button>
-              <button id="downloadPngBtn" type="button" disabled>Download PNG</button>
-              <button id="copyProjectBtn" type="button" disabled>Copy Project</button>
               <button id="resetBtn" class="danger ghost" type="button">Reset Form</button>
             </div>
             <p id="statusMessage" class="status" role="status" aria-live="polite"></p>
           </div>
-
-          <div class="preview-card">
-            <div class="section-title-row">
-              <h2>ภาพสรุปโครงการ</h2>
-              <span id="imageState">ยังไม่ได้สร้าง</span>
-            </div>
-            <div id="imagePreview" class="image-preview">
-              <p>ภาพจาก Gemini จะแสดงที่นี่</p>
-            </div>
-          </div>
         </aside>
       </main>
 
-      <section class="preview-card full-width-output">
+      <section class="preview-card full-width-output image-output">
         <div class="section-title-row">
-          <h2>ข้อมูลโครงการ</h2>
-          <span id="detailState">ยังไม่ได้สร้าง</span>
+          <div>
+            <h2>ภาพสรุปโครงการ</h2>
+            <span id="imageState">ยังไม่ได้สร้าง</span>
+          </div>
+          <button id="downloadPngBtn" type="button" disabled>Download ภาพสรุปข้อมูลโครงการ</button>
+        </div>
+        <div id="imagePreview" class="image-preview">
+          <p>ภาพจาก Gemini จะแสดงที่นี่</p>
+        </div>
+      </section>
+
+      <section class="preview-card full-width-output document-output">
+        <div class="section-title-row">
+          <div>
+            <h2>ข้อมูลโครงการ</h2>
+            <span id="detailState">ยังไม่ได้สร้าง</span>
+          </div>
+          <button id="copyProjectBtn" type="button" disabled>Copy ข้อมูลโครงการ</button>
         </div>
         <article id="projectDetailPreview" class="document-preview">
-          <p>ข้อมูลโครงการจาก Gemini จะแสดงที่นี่ และสามารถกด Copy Project เพื่อนำไปใช้ต่อได้</p>
+          <p>ข้อมูลโครงการจาก Gemini จะแสดงที่นี่ และสามารถกด Copy ข้อมูลโครงการ เพื่อนำไปใช้ต่อได้</p>
         </article>
       </section>
     </div>

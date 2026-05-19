@@ -388,7 +388,7 @@ function resetForm() {
   generatedDetail = "";
   lastAutoQuickWinName = "";
   imagePreview.innerHTML = "<p>ภาพจาก Gemini จะแสดงที่นี่</p>";
-  projectDetailPreview.innerHTML = "<p>ข้อมูลโครงการจาก Gemini จะแสดงที่นี่ และสามารถกด Copy Project เพื่อนำไปใช้ต่อได้</p>";
+  projectDetailPreview.innerHTML = "<p>ข้อมูลโครงการจาก Gemini จะแสดงที่นี่ และสามารถกด Copy ข้อมูลโครงการ เพื่อนำไปใช้ต่อได้</p>";
   imageState.textContent = "ยังไม่ได้สร้าง";
   detailState.textContent = "ยังไม่ได้สร้าง";
   downloadPngBtn.disabled = true;

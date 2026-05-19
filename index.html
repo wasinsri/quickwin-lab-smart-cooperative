@@ -4,16 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Quick Win Lab for Smart Cooperative 6.0</title>
-    <meta
-      name="description"
-      content="เครื่องมือ Workshop สำหรับออกแบบโครงการ Quick Win ขับเคลื่อน Smart Cooperative 6.0 ภายใน 90 วัน"
-    />
+    <meta name="description" content="เครื่องมือ Workshop สำหรับออกแบบโครงการ Quick Win ขับเคลื่อน Smart Cooperative 6.0 ภายใน 90 วัน" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -43,25 +37,12 @@
       <main class="workspace">
         <form id="quickWinForm" class="form-panel">
           <section class="step-card active" data-step="1">
-            <div class="card-heading">
-              <span class="step-label">Step 1</span>
-              <h2>ข้อมูลกลุ่ม</h2>
-            </div>
+            <div class="card-heading"><span class="step-label">Step 1</span><h2>ข้อมูลกลุ่ม</h2></div>
             <div class="grid three">
-              <label>
-                ชื่อกลุ่ม
-                <input id="groupName" name="groupName" type="text" placeholder="เช่น กลุ่ม Smart Coop A" required />
-              </label>
-              <label>
-                ชื่อผู้ประสานงาน
-                <input id="coordinator" name="coordinator" type="text" placeholder="ชื่อ-นามสกุล" />
-              </label>
-              <label>
-                หน่วยงาน / จังหวัด
-                <input id="organization" name="organization" type="text" placeholder="เช่น สำนักงานสหกรณ์จังหวัด..." />
-              </label>
+              <label>ชื่อกลุ่ม<input id="groupName" name="groupName" type="text" placeholder="เช่น กลุ่ม Smart Coop A" required /></label>
+              <label>ชื่อผู้ประสานงาน<input id="coordinator" name="coordinator" type="text" placeholder="ชื่อ-นามสกุล" /></label>
+              <label>หน่วยงาน / จังหวัด<input id="organization" name="organization" type="text" placeholder="เช่น สำนักงานสหกรณ์จังหวัด..." /></label>
             </div>
-
             <div class="field-block">
               <h3>เลือกประเภทสหกรณ์เป้าหมาย</h3>
               <div class="option-grid" role="radiogroup" aria-label="ประเภทสหกรณ์เป้าหมาย">
@@ -77,25 +58,12 @@
           </section>
 
           <section class="step-card" data-step="2">
-            <div class="card-heading">
-              <span class="step-label">Step 2</span>
-              <h2>บริบทสหกรณ์และ Pain Point สำคัญ</h2>
-            </div>
+            <div class="card-heading"><span class="step-label">Step 2</span><h2>บริบทสหกรณ์และ Pain Point สำคัญ</h2></div>
             <div class="grid">
-              <label>
-                บริบทของสหกรณ์ประเภทนี้ในพื้นที่
-                <textarea id="context" name="context" rows="4" placeholder="เล่าภาพรวมพื้นที่ สมาชิก สถานการณ์ปัจจุบัน"></textarea>
-              </label>
-              <label>
-                สมาชิกหลักคือใคร
-                <textarea id="members" name="members" rows="4" placeholder="เช่น เกษตรกรรายย่อย ผู้ประกอบอาชีพประมง สมาชิกออมทรัพย์"></textarea>
-              </label>
-              <label>
-                บริการ / สินค้า / ภารกิจหลัก
-                <textarea id="mainService" name="mainService" rows="4" placeholder="เช่น รวบรวมผลผลิต สินเชื่อ จัดหาปัจจัยการผลิต บริการตลาด"></textarea>
-              </label>
+              <label>บริบทของสหกรณ์ประเภทนี้ในพื้นที่<textarea id="context" name="context" rows="4" placeholder="เล่าภาพรวมพื้นที่ สมาชิก สถานการณ์ปัจจุบัน"></textarea></label>
+              <label>สมาชิกหลักคือใคร<textarea id="members" name="members" rows="4" placeholder="เช่น เกษตรกรรายย่อย ผู้ประกอบอาชีพประมง สมาชิกออมทรัพย์"></textarea></label>
+              <label>บริการ / สินค้า / ภารกิจหลัก<textarea id="mainService" name="mainService" rows="4" placeholder="เช่น รวบรวมผลผลิต สินเชื่อ จัดหาปัจจัยการผลิต บริการตลาด"></textarea></label>
             </div>
-
             <div class="field-block">
               <h3>Pain Point สำคัญ</h3>
               <div class="option-grid" role="radiogroup" aria-label="Pain Point สำคัญ">
@@ -109,185 +77,63 @@
                 <label><input type="radio" name="painPoint" value="อื่น ๆ" />อื่น ๆ</label>
               </div>
             </div>
-
-            <label id="otherPainWrap" class="hidden">
-              ระบุ Pain Point อื่น ๆ
-              <input id="otherPainPoint" name="otherPainPoint" type="text" placeholder="ระบุปัญหาที่ต้องการแก้ไข" />
-            </label>
+            <label id="otherPainWrap" class="hidden">ระบุ Pain Point อื่น ๆ<input id="otherPainPoint" name="otherPainPoint" type="text" placeholder="ระบุปัญหาที่ต้องการแก้ไข" /></label>
             <div class="grid two">
-              <label>
-                Pain Point ที่เลือกคืออะไร
-                <textarea id="painPointDetail" name="painPointDetail" rows="4" placeholder="อธิบายปัญหาให้ชัดเจน"></textarea>
-              </label>
-              <label>
-                ทำไมปัญหานี้จึงสำคัญ
-                <textarea id="whyImportant" name="whyImportant" rows="4" placeholder="ผลกระทบต่อสมาชิก รายได้ เวลา ความโปร่งใส หรือความเสี่ยง"></textarea>
-              </label>
+              <label>Pain Point ที่เลือกคืออะไร<textarea id="painPointDetail" name="painPointDetail" rows="4" placeholder="อธิบายปัญหาให้ชัดเจน"></textarea></label>
+              <label>ทำไมปัญหานี้จึงสำคัญ<textarea id="whyImportant" name="whyImportant" rows="4" placeholder="ผลกระทบต่อสมาชิก รายได้ เวลา ความโปร่งใส หรือความเสี่ยง"></textarea></label>
             </div>
           </section>
 
           <section class="step-card" data-step="3">
-            <div class="card-heading">
-              <span class="step-label">Step 3</span>
-              <h2>Quick Win Ideas</h2>
-            </div>
+            <div class="card-heading"><span class="step-label">Step 3</span><h2>Quick Win Ideas</h2></div>
             <div class="idea-list">
-              <article class="idea-card">
-                <h3>ไอเดียที่ 1</h3>
-                <label>ชื่อไอเดีย<input id="idea1Name" name="idea1Name" type="text" placeholder="ชื่อไอเดียสั้น ๆ" /></label>
-                <label>ทำอะไร<textarea id="idea1Action" name="idea1Action" rows="3" placeholder="สิ่งที่จะลงมือทำ"></textarea></label>
-                <label>ใครได้ประโยชน์<textarea id="idea1Benefit" name="idea1Benefit" rows="3" placeholder="สมาชิกหรือผู้เกี่ยวข้องที่ได้ประโยชน์"></textarea></label>
-              </article>
-              <article class="idea-card">
-                <h3>ไอเดียที่ 2</h3>
-                <label>ชื่อไอเดีย<input id="idea2Name" name="idea2Name" type="text" /></label>
-                <label>ทำอะไร<textarea id="idea2Action" name="idea2Action" rows="3"></textarea></label>
-                <label>ใครได้ประโยชน์<textarea id="idea2Benefit" name="idea2Benefit" rows="3"></textarea></label>
-              </article>
-              <article class="idea-card">
-                <h3>ไอเดียที่ 3</h3>
-                <label>ชื่อไอเดีย<input id="idea3Name" name="idea3Name" type="text" /></label>
-                <label>ทำอะไร<textarea id="idea3Action" name="idea3Action" rows="3"></textarea></label>
-                <label>ใครได้ประโยชน์<textarea id="idea3Benefit" name="idea3Benefit" rows="3"></textarea></label>
-              </article>
+              <article class="idea-card"><h3>ไอเดียที่ 1</h3><label>ชื่อไอเดีย<input id="idea1Name" name="idea1Name" type="text" placeholder="ชื่อไอเดียสั้น ๆ" /></label><label>ทำอะไร<textarea id="idea1Action" name="idea1Action" rows="3" placeholder="สิ่งที่จะลงมือทำ"></textarea></label><label>ใครได้ประโยชน์<textarea id="idea1Benefit" name="idea1Benefit" rows="3" placeholder="สมาชิกหรือผู้เกี่ยวข้องที่ได้ประโยชน์"></textarea></label></article>
+              <article class="idea-card"><h3>ไอเดียที่ 2</h3><label>ชื่อไอเดีย<input id="idea2Name" name="idea2Name" type="text" /></label><label>ทำอะไร<textarea id="idea2Action" name="idea2Action" rows="3"></textarea></label><label>ใครได้ประโยชน์<textarea id="idea2Benefit" name="idea2Benefit" rows="3"></textarea></label></article>
+              <article class="idea-card"><h3>ไอเดียที่ 3</h3><label>ชื่อไอเดีย<input id="idea3Name" name="idea3Name" type="text" /></label><label>ทำอะไร<textarea id="idea3Action" name="idea3Action" rows="3"></textarea></label><label>ใครได้ประโยชน์<textarea id="idea3Benefit" name="idea3Benefit" rows="3"></textarea></label></article>
             </div>
-
-            <div class="field-block">
-              <h3>เลือกไอเดียหลักเพื่อประเมินคะแนน</h3>
-              <div id="selectedIdeaOptions" class="option-grid compact" role="radiogroup" aria-label="เลือกไอเดียหลัก">
-                <label><input type="radio" name="selectedIdeaIndex" value="1" />ไอเดียที่ 1</label>
-                <label><input type="radio" name="selectedIdeaIndex" value="2" />ไอเดียที่ 2</label>
-                <label><input type="radio" name="selectedIdeaIndex" value="3" />ไอเดียที่ 3</label>
-              </div>
+            <div class="winner-box">
+              <span>ระบบจะนำไอเดียที่คะแนนสูงสุดไปสร้าง Mini Action Plan ต่อ</span>
+              <strong id="selectedIdeaName">ยังไม่มีไอเดียที่พร้อมประเมิน</strong>
+              <small id="selectedIdeaReason">กรอกชื่อไอเดียและให้คะแนนทุกไอเดียเพื่อเลือกโครงการหลัก</small>
             </div>
           </section>
 
           <section class="step-card" data-step="4">
-            <div class="card-heading">
-              <span class="step-label">Step 4</span>
-              <h2>ให้คะแนน Quick Win</h2>
+            <div class="card-heading"><span class="step-label">Step 4</span><h2>ให้คะแนนทุกไอเดีย</h2></div>
+            <div class="criteria-note">Impact = แก้ปัญหาสำคัญและเกิดประโยชน์กับสมาชิก | Speed = เริ่มได้เร็วและเห็นผลใน 90 วัน | Feasibility = ใช้คน งบ และเครื่องมือที่มีอยู่ | Data Use = ใช้ข้อมูลตัดสินใจหรือติดตามผล | Scalability = ขยายผลได้</div>
+            <div class="multi-score-grid">
+              <article class="idea-score-card" data-idea-score-card="1"><div class="idea-score-heading"><h3 id="idea1ScoreTitle">ไอเดียที่ 1</h3><strong id="idea1Total">5/25</strong></div><div class="score-grid compact-score"><div class="score-item"><div><strong>Impact</strong></div><input id="idea1Impact" type="range" min="1" max="5" value="1" /><output>1</output></div><div class="score-item"><div><strong>Speed</strong></div><input id="idea1Speed" type="range" min="1" max="5" value="1" /><output>1</output></div><div class="score-item"><div><strong>Feasibility</strong></div><input id="idea1Feasibility" type="range" min="1" max="5" value="1" /><output>1</output></div><div class="score-item"><div><strong>Data Use</strong></div><input id="idea1DataUse" type="range" min="1" max="5" value="1" /><output>1</output></div><div class="score-item"><div><strong>Scalability</strong></div><input id="idea1Scalability" type="range" min="1" max="5" value="1" /><output>1</output></div></div></article>
+              <article class="idea-score-card" data-idea-score-card="2"><div class="idea-score-heading"><h3 id="idea2ScoreTitle">ไอเดียที่ 2</h3><strong id="idea2Total">5/25</strong></div><div class="score-grid compact-score"><div class="score-item"><div><strong>Impact</strong></div><input id="idea2Impact" type="range" min="1" max="5" value="1" /><output>1</output></div><div class="score-item"><div><strong>Speed</strong></div><input id="idea2Speed" type="range" min="1" max="5" value="1" /><output>1</output></div><div class="score-item"><div><strong>Feasibility</strong></div><input id="idea2Feasibility" type="range" min="1" max="5" value="1" /><output>1</output></div><div class="score-item"><div><strong>Data Use</strong></div><input id="idea2DataUse" type="range" min="1" max="5" value="1" /><output>1</output></div><div class="score-item"><div><strong>Scalability</strong></div><input id="idea2Scalability" type="range" min="1" max="5" value="1" /><output>1</output></div></div></article>
+              <article class="idea-score-card" data-idea-score-card="3"><div class="idea-score-heading"><h3 id="idea3ScoreTitle">ไอเดียที่ 3</h3><strong id="idea3Total">5/25</strong></div><div class="score-grid compact-score"><div class="score-item"><div><strong>Impact</strong></div><input id="idea3Impact" type="range" min="1" max="5" value="1" /><output>1</output></div><div class="score-item"><div><strong>Speed</strong></div><input id="idea3Speed" type="range" min="1" max="5" value="1" /><output>1</output></div><div class="score-item"><div><strong>Feasibility</strong></div><input id="idea3Feasibility" type="range" min="1" max="5" value="1" /><output>1</output></div><div class="score-item"><div><strong>Data Use</strong></div><input id="idea3DataUse" type="range" min="1" max="5" value="1" /><output>1</output></div><div class="score-item"><div><strong>Scalability</strong></div><input id="idea3Scalability" type="range" min="1" max="5" value="1" /><output>1</output></div></div></article>
             </div>
-            <div class="score-grid">
-              <div class="score-item">
-                <div><strong>Impact</strong><p>แก้ปัญหาสำคัญและเกิดประโยชน์กับสมาชิกหรือไม่</p></div>
-                <input id="impact" name="impact" type="range" min="1" max="5" value="1" />
-                <output for="impact">1</output>
-              </div>
-              <div class="score-item">
-                <div><strong>Speed</strong><p>เริ่มได้เร็ว และเห็นผลภายใน 90 วันหรือไม่</p></div>
-                <input id="speed" name="speed" type="range" min="1" max="5" value="1" />
-                <output for="speed">1</output>
-              </div>
-              <div class="score-item">
-                <div><strong>Feasibility</strong><p>ใช้คน งบประมาณ และเครื่องมือที่มีอยู่ได้หรือไม่</p></div>
-                <input id="feasibility" name="feasibility" type="range" min="1" max="5" value="1" />
-                <output for="feasibility">1</output>
-              </div>
-              <div class="score-item">
-                <div><strong>Data Use</strong><p>ใช้ข้อมูลช่วยตัดสินใจหรือติดตามผลได้หรือไม่</p></div>
-                <input id="dataUse" name="dataUse" type="range" min="1" max="5" value="1" />
-                <output for="dataUse">1</output>
-              </div>
-              <div class="score-item">
-                <div><strong>Scalability</strong><p>หากสำเร็จ สามารถขยายผลไปสหกรณ์อื่นได้หรือไม่</p></div>
-                <input id="scalability" name="scalability" type="range" min="1" max="5" value="1" />
-                <output for="scalability">1</output>
-              </div>
-            </div>
-            <div class="score-summary">
-              <strong id="totalScore">5/25</strong>
-              <span id="scoreInterpretation">ยังไม่เหมาะ ควรเปลี่ยนหรือปรับให้เล็กลง</span>
-            </div>
+            <div class="score-summary"><strong id="totalScore">5/25</strong><span id="scoreInterpretation">คะแนนสูงสุดของไอเดียที่ระบบเลือก</span></div>
             <p id="feasibilityWarning" class="warning">ข้อควรระวัง: Feasibility ต่ำกว่า 3 อาจไม่เหมาะเป็น Quick Win เพราะอาจทำไม่ทันภายใน 90 วัน</p>
           </section>
 
           <section class="step-card" data-step="5">
-            <div class="card-heading">
-              <span class="step-label">Step 5</span>
-              <h2>Mini Action Plan 30–90 วัน</h2>
-            </div>
-            <div class="grid two">
-              <label>ชื่อโครงการ Quick Win<input id="quickWinName" name="quickWinName" type="text" required /></label>
-              <label>ผู้รับผิดชอบหลัก<input id="owner" name="owner" type="text" /></label>
-            </div>
-            <label>
-              เป้าหมายภายใน 90 วัน
-              <textarea id="goal90" name="goal90" rows="4" placeholder="ผลลัพธ์ที่ต้องเห็นภายใน 90 วัน"></textarea>
-            </label>
-            <div class="grid three">
-              <label>แผน 0–30 วัน<textarea id="plan30" name="plan30" rows="5"></textarea></label>
-              <label>แผน 31–60 วัน<textarea id="plan60" name="plan60" rows="5"></textarea></label>
-              <label>แผน 61–90 วัน<textarea id="plan90" name="plan90" rows="5"></textarea></label>
-            </div>
-            <div class="grid two">
-              <label>ทรัพยากรที่ต้องใช้<textarea id="resources" name="resources" rows="4"></textarea></label>
-              <label>ความเสี่ยงที่อาจเกิดขึ้น<textarea id="risk" name="risk" rows="4"></textarea></label>
-              <label>วิธีลดความเสี่ยง<textarea id="riskMitigation" name="riskMitigation" rows="4"></textarea></label>
-            </div>
+            <div class="card-heading"><span class="step-label">Step 5</span><h2>Mini Action Plan 30–90 วัน</h2></div>
+            <div class="grid two"><label>ชื่อโครงการ Quick Win<input id="quickWinName" name="quickWinName" type="text" required /></label><label>ผู้รับผิดชอบหลัก<input id="owner" name="owner" type="text" /></label></div>
+            <label>เป้าหมายภายใน 90 วัน<textarea id="goal90" name="goal90" rows="4" placeholder="ผลลัพธ์ที่ต้องเห็นภายใน 90 วัน"></textarea></label>
+            <div class="grid three"><label>แผน 0–30 วัน<textarea id="plan30" name="plan30" rows="5"></textarea></label><label>แผน 31–60 วัน<textarea id="plan60" name="plan60" rows="5"></textarea></label><label>แผน 61–90 วัน<textarea id="plan90" name="plan90" rows="5"></textarea></label></div>
+            <div class="grid two"><label>ทรัพยากรที่ต้องใช้<textarea id="resources" name="resources" rows="4"></textarea></label><label>ความเสี่ยงที่อาจเกิดขึ้น<textarea id="risk" name="risk" rows="4"></textarea></label><label>วิธีลดความเสี่ยง<textarea id="riskMitigation" name="riskMitigation" rows="4"></textarea></label></div>
           </section>
 
           <section class="step-card" data-step="6">
-            <div class="card-heading">
-              <span class="step-label">Step 6</span>
-              <h2>ตัวชี้วัดและสรุปสำหรับนำเสนอ</h2>
-            </div>
-            <div class="grid three">
-              <label>KPI 1<input id="kpi1" name="kpi1" type="text" placeholder="เช่น สมาชิกใช้งานระบบ 100 ราย" /></label>
-              <label>KPI 2<input id="kpi2" name="kpi2" type="text" placeholder="เช่น เวลาทำรายงานลดลง 30%" /></label>
-              <label>KPI 3<input id="kpi3" name="kpi3" type="text" placeholder="เช่น มี dashboard ติดตามผลรายสัปดาห์" /></label>
-            </div>
-            <div class="summary-box">
-              <div class="section-title-row">
-                <h3>สรุปสำหรับนำเสนอ 1 นาที</h3>
-                <button id="copySummaryBtn" class="ghost small" type="button">คัดลอก</button>
-              </div>
-              <p id="oneMinuteSummary">กรอกข้อมูลโครงการ แล้วระบบจะสร้างสรุปให้อัตโนมัติ</p>
-            </div>
+            <div class="card-heading"><span class="step-label">Step 6</span><h2>ตัวชี้วัดและสรุปสำหรับนำเสนอ</h2></div>
+            <div class="grid three"><label>KPI 1<input id="kpi1" name="kpi1" type="text" placeholder="เช่น สมาชิกใช้งานระบบ 100 ราย" /></label><label>KPI 2<input id="kpi2" name="kpi2" type="text" placeholder="เช่น เวลาทำรายงานลดลง 30%" /></label><label>KPI 3<input id="kpi3" name="kpi3" type="text" placeholder="เช่น มี dashboard ติดตามผลรายสัปดาห์" /></label></div>
+            <div class="summary-box"><div class="section-title-row"><h3>สรุปสำหรับนำเสนอ 1 นาที</h3><button id="copySummaryBtn" class="ghost small" type="button">คัดลอก</button></div><p id="oneMinuteSummary">กรอกข้อมูลโครงการ แล้วระบบจะสร้างสรุปให้อัตโนมัติ</p></div>
           </section>
 
-          <div class="form-navigation">
-            <button id="backBtn" class="ghost" type="button">Back</button>
-            <button id="nextBtn" type="button">Next</button>
-          </div>
+          <div class="form-navigation"><button id="backBtn" class="ghost" type="button">Back</button><button id="nextBtn" type="button">Next</button></div>
         </form>
 
         <aside class="side-panel" aria-label="ผลลัพธ์โครงการ">
-          <div class="action-card">
-            <h2>ดำเนินการ</h2>
-            <div class="action-grid">
-              <button id="calculateBtn" type="button">คำนวณคะแนน</button>
-              <button id="generateImageBtn" type="button">สร้างภาพสรุปโครงการ</button>
-              <button id="generateDetailBtn" type="button">สร้างรายละเอียดโครงการ</button>
-              <button id="downloadPngBtn" type="button" disabled>Download PNG</button>
-              <button id="downloadPdfBtn" type="button" disabled>Download PDF</button>
-              <button id="resetBtn" class="danger ghost" type="button">Reset Form</button>
-            </div>
-            <p id="statusMessage" class="status" role="status" aria-live="polite"></p>
-          </div>
-
-          <div class="preview-card">
-            <div class="section-title-row">
-              <h2>ภาพสรุปโครงการ</h2>
-              <span id="imageState">ยังไม่ได้สร้าง</span>
-            </div>
-            <div id="imagePreview" class="image-preview">
-              <p>ภาพจาก Gemini จะแสดงที่นี่</p>
-            </div>
-          </div>
-
-          <div class="preview-card">
-            <div class="section-title-row">
-              <h2>รายละเอียดโครงการ</h2>
-              <span id="detailState">ยังไม่ได้สร้าง</span>
-            </div>
-            <article id="projectDetailPreview" class="document-preview">
-              <p>รายละเอียดโครงการจาก Gemini จะแสดงที่นี่</p>
-            </article>
-          </div>
+          <div class="action-card"><h2>ดำเนินการ</h2><div class="action-grid"><button id="calculateBtn" type="button">คำนวณคะแนน</button><button id="generateImageBtn" type="button">สร้างภาพสรุปโครงการ</button><button id="generateDetailBtn" type="button">สร้างรายละเอียดโครงการ</button><button id="downloadPngBtn" type="button" disabled>Download PNG</button><button id="downloadPdfBtn" type="button" disabled>Download PDF</button><button id="resetBtn" class="danger ghost" type="button">Reset Form</button></div><p id="statusMessage" class="status" role="status" aria-live="polite"></p></div>
+          <div class="preview-card"><div class="section-title-row"><h2>ภาพสรุปโครงการ</h2><span id="imageState">ยังไม่ได้สร้าง</span></div><div id="imagePreview" class="image-preview"><p>ภาพจาก Gemini จะแสดงที่นี่</p></div></div>
+          <div class="preview-card"><div class="section-title-row"><h2>รายละเอียดโครงการ</h2><span id="detailState">ยังไม่ได้สร้าง</span></div><article id="projectDetailPreview" class="document-preview"><p>รายละเอียดโครงการจาก Gemini จะแสดงที่นี่</p></article></div>
         </aside>
       </main>
     </div>
-
     <script src="script.js"></script>
   </body>
 </html>

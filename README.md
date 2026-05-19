@@ -1,12 +1,12 @@
 # Quick Win Lab for Smart Cooperative 6.0
 
-เว็บแอปแบบ Static สำหรับกิจกรรม Workshop 30 นาที ใช้กรอกข้อมูลโครงการ Quick Win ของสหกรณ์ คำนวณคะแนน สร้างภาพสรุปโครงการ และสร้างรายละเอียดโครงการผ่าน Cloudflare Worker ที่เรียก Gemini API โดยไม่เปิดเผย API Key ในหน้าเว็บ
+เว็บแอปแบบ Static สำหรับกิจกรรม Workshop 30 นาที ใช้กรอกข้อมูลโครงการ Quick Win ของสหกรณ์ คำนวณคะแนน สร้างภาพสรุปโครงการ และเขียนข้อมูลโครงการผ่าน Cloudflare Worker ที่เรียก Gemini API โดยไม่เปิดเผย API Key ในหน้าเว็บ
 
 ## ไฟล์ในโปรเจกต์
 
 - `index.html` หน้า Workshop สำหรับ GitHub Pages
-- `style.css` รูปแบบหน้าจอ Responsive และ Print
-- `script.js` การคำนวณคะแนน ฟอร์ม การเรียก Worker ดาวน์โหลด PNG และพิมพ์ PDF
+- `style.css` รูปแบบหน้าจอ Responsive
+- `script.js` การคำนวณคะแนน ฟอร์ม การเรียก Worker ดาวน์โหลด PNG และคัดลอกข้อมูลโครงการ
 - `worker.js` Cloudflare Worker สำหรับซ่อน Gemini API Key และเรียก Gemini API
 - `README.md` คู่มือ deploy และใช้งาน
 
@@ -69,16 +69,13 @@ const WORKER_URL = "https://quickwin-lab-smart-cooperative-api.tong-wasin.worker
 
 1. เปิดหน้า GitHub Pages
 2. กรอกข้อมูลสำคัญให้ครบ ได้แก่ ชื่อกลุ่ม ประเภทสหกรณ์ Pain Point ชื่อโครงการ แผน 90 วัน และ KPI
-3. กรอก Quick Win Ideas 3 ไอเดีย
-4. ให้คะแนนทุกไอเดียใน 5 เกณฑ์ รวมเต็ม 25 คะแนนต่อไอเดีย
-5. ตรวจว่าระบบเลือกไอเดียที่คะแนนสูงสุด และนำไปเป็นชื่อโครงการ Quick Win สำหรับ Mini Action Plan
-6. กด `สร้างภาพสรุปโครงการ`
-7. เมื่อภาพขึ้น preview ให้กด `Download PNG`
-8. กด `สร้างรายละเอียดโครงการ`
-9. เมื่อรายละเอียดขึ้น preview ให้กด `Download PDF`
-10. ระบบจะเปิดหน้าต่างพิมพ์ ให้เลือก `Save as PDF`
-
-หมายเหตุ: PDF ใช้วิธี Printable HTML เพื่อรองรับภาษาไทยได้เสถียรกว่า jsPDF ในหลาย browser
+3. เลื่อนคะแนน Impact, Speed, Feasibility, Data Use, Scalability
+4. ตรวจว่าคะแนนรวมเปลี่ยนอัตโนมัติ
+5. กด `สร้างภาพสรุปโครงการ`
+6. เมื่อภาพขึ้น preview ให้กด `Download PNG`
+7. กด `เขียนข้อมูลโครงการ`
+8. เมื่อข้อมูลโครงการขึ้น preview ให้กด `Copy Project`
+9. นำข้อความที่คัดลอกไปวางในเอกสาร รายงาน หรือระบบงานที่ต้องการ
 
 ## 6. วิธีใช้งานในห้อง Workshop
 
@@ -89,12 +86,12 @@ const WORKER_URL = "https://quickwin-lab-smart-cooperative-api.tong-wasin.worker
 5. ให้คะแนนทุกไอเดียใน 5 เกณฑ์ รวมเต็ม 25 คะแนนต่อไอเดีย
 6. ระบบจะเลือกไอเดียที่คะแนนสูงสุดเป็นโครงการหลักสำหรับ Mini Action Plan
 7. ใช้สรุป 1 นาทีสำหรับนำเสนอหน้าห้อง
-8. หากมีเวลาและอินเทอร์เน็ตพร้อม ให้กดสร้างภาพและรายละเอียดโครงการด้วย Gemini
-9. ดาวน์โหลด PNG สำหรับสไลด์ และบันทึก PDF สำหรับรายงานกลุ่ม
+8. หากมีเวลาและอินเทอร์เน็ตพร้อม ให้กดสร้างภาพและเขียนข้อมูลโครงการด้วย Gemini
+9. ดาวน์โหลด PNG สำหรับสไลด์ และคัดลอกข้อมูลโครงการสำหรับรายงานกลุ่ม
 
 ## 7. ข้อควรระวังเรื่องค่าใช้จ่าย Gemini API
 
-- การกดสร้างภาพและสร้างรายละเอียดโครงการจะเรียก Gemini API และอาจมีค่าใช้จ่าย
+- การกดสร้างภาพและเขียนข้อมูลโครงการจะเรียก Gemini API และอาจมีค่าใช้จ่าย
 - ควรกำหนดงบประมาณหรือ quota ใน Google AI Studio / Google Cloud
 - แนะนำให้ผู้สอนสาธิตการกด Gemini เพียงบางกลุ่ม หากต้องควบคุมค่าใช้จ่าย
 - Worker มีการจำกัดขนาด request เบื้องต้น แต่ยังไม่ใช่ระบบ rate limit เต็มรูปแบบ
@@ -104,8 +101,8 @@ const WORKER_URL = "https://quickwin-lab-smart-cooperative-api.tong-wasin.worker
 
 Worker ใช้ REST endpoint แบบ `generateContent`
 
-- Text model: `gemini-2.5-flash`
-- Image model: `gemini-2.5-flash-image`
+- Text model: `gemini-3.1-flash-lite`
+- Image model: `gemini-3-pro-image-preview`
 
 หาก Google เปลี่ยนชื่อ model ในอนาคต ให้แก้ค่าคงที่ด้านบนของ `worker.js`
 

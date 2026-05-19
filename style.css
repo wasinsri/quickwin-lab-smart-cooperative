@@ -176,6 +176,7 @@ button.small {
   grid-template-columns: minmax(0, 1fr) 420px;
   gap: 22px;
   align-items: start;
+  margin-bottom: 22px;
 }
 
 .form-panel,
@@ -560,13 +561,23 @@ output {
 }
 
 .document-preview {
-  max-height: 520px;
+  min-height: 420px;
+  max-height: 70vh;
   margin-top: 14px;
   overflow: auto;
   padding: 18px;
   color: #213b35;
   line-height: 1.75;
   white-space: pre-wrap;
+}
+
+.full-width-output {
+  padding: 26px;
+}
+
+.full-width-output .document-preview {
+  padding: 24px;
+  font-size: 1.02rem;
 }
 
 .print-document {

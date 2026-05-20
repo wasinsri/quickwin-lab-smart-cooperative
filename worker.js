@@ -208,8 +208,6 @@ function buildProjectDetailPrompt(data) {
 ข้อมูลทั่วไป:
 
 ชื่อกลุ่ม: ${clean(data.groupName)}
-ชื่อผู้ประสานงาน: ${clean(data.coordinator)}
-หน่วยงาน / จังหวัด: ${clean(data.organization)}
 ประเภทสหกรณ์: ${clean(data.coopType)}
 บริบทสหกรณ์: ${clean(data.context)}
 สมาชิกหลัก: ${clean(data.members)}
@@ -228,7 +226,6 @@ Pain Point: ${clean(data.painPoint)}
 แผน 0–30 วัน: ${clean(data.plan30)}
 แผน 31–60 วัน: ${clean(data.plan60)}
 แผน 61–90 วัน: ${clean(data.plan90)}
-ผู้รับผิดชอบหลัก: ${clean(data.owner)}
 ทรัพยากรที่ต้องใช้: ${clean(data.resources)}
 ความเสี่ยง: ${clean(data.risk)}
 วิธีลดความเสี่ยง: ${clean(data.riskMitigation)}

@@ -203,8 +203,6 @@ function collectData() {
 
   return {
     groupName: byId("groupName").value.trim(),
-    coordinator: byId("coordinator").value.trim(),
-    organization: byId("organization").value.trim(),
     coopType: getRadioValue("coopType"),
     context: byId("context").value.trim(),
     members: byId("members").value.trim(),
@@ -223,7 +221,6 @@ function collectData() {
     plan30: byId("plan30").value.trim(),
     plan60: byId("plan60").value.trim(),
     plan90: byId("plan90").value.trim(),
-    owner: byId("owner").value.trim(),
     resources: byId("resources").value.trim(),
     risk: byId("risk").value.trim(),
     riskMitigation: byId("riskMitigation").value.trim(),
